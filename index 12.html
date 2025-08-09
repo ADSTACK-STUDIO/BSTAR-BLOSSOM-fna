@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BStarBlossom Ink</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #fff;
+}
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #111;
+  color: var(--primary-color);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.85);
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  padding: 0.5rem 1rem;
+  animation: fadeInDown 1s;
+}
+header .logo {
+  height: 50px;
+  cursor: pointer;
+}
+header .logo img {
+  height: 100%;
+}
+header .tagline {
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+  flex: 1;
+}
+.hamburger {
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 25px;
+  background: var(--primary-color);
+  margin: 4px 0;
+}
+nav {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  background: rgba(0,0,0,0.95);
+  padding: 1rem;
+}
+nav.active {
+  display: flex;
+}
+nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin: 0.5rem 0;
+  text-transform: uppercase;
+}
+.hero {
+  height: 100vh;
+  position: relative;
+  background: url('home-bg.png') center/cover no-repeat;
+}
+.hero::after {
+  content: "";
+  background: rgba(0,0,0,0.7);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: zoomIn 1.5s ease;
+}
+.hero h1 {
+  font-size: 3rem;
+  font-family: 'Oswald', sans-serif;
+  text-shadow: 2px 2px 4px black;
+}
+.hero p {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 3px black;
+}
+.cta-buttons {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: fadeInUp 2s ease;
+}
+button {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: transform .3s ease, background .3s ease;
+}
+button:hover {
+  background: var(--primary-color);
+  color: #111;
+  transform: scale(1.1);
+}
+section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease-out;
+}
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+section h2 {
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+}
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  text-align: center;
+}
+.service-card {
+  position: relative;
+  padding: 2rem;
+  flex: 1 1 250px;
+  color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.05);
+  transition: transform 0.5s ease;
+  animation: fadeInUp 1s;
+}
+.service-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.gallery-grid img {
+  width: 100%;
+  border-radius: 8px;
+  transition: transform .3s ease;
+}
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+.service-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+iframe {
+  width: 100%;
+  height: 400px;
+  border: none;
+  margin-top: 2rem;
+}
+#toTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #fff;
+  color: #111;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  z-index: 99;
+}
+.gallery-item {
+  display: none;
+}
+.gallery-item.show {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+#loader {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+#loader img {
+  width: 150px;
+  animation: pulse 2s infinite;
+}
+#whatsapp {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 99;
+}
+#whatsapp img {
+  width: 50px;
+  cursor: pointer;
+}
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+@keyframes fadeInUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+@keyframes fadeInDown { from{opacity:0; transform:translateY(-20px);} to{opacity:1; transform:translateY(0);} }
+@keyframes zoomIn { from{transform:scale(0.8);opacity:0;} to{transform:scale(1);opacity:1;} }
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .services {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  nav {
+    right: 0;
+    width: 100%;
+    top: 60px;
+    padding: 1rem 2rem;
+  }
+  nav a {
+    margin: 1rem 0;
+  }
+  .popup form {
+    width: 90%;
+    max-width: 400px;
+  }
+  section {
+    padding: 3rem 1rem;
+  }
+}
+</style>
+
+<style>
+body { opacity:0; transition:opacity 0.5s ease-in; }
+body.loaded { opacity:1; }
+.popup { animation:fadeIn 0.3s ease-in; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+.services .service-card { background: rgba(255,255,255,0.05); }
+#about { background: rgba(255,255,255,0.05); }
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .services {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  nav {
+    right: 0;
+    width: 100%;
+    top: 60px;
+    padding: 1rem 2rem;
+  }
+  nav a {
+    margin: 1rem 0;
+  }
+  .popup form {
+    width: 90%;
+    max-width: 400px;
+  }
+  section {
+    padding: 3rem 1rem;
+  }
+}
+</style>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<style>
+  #cookieConsent {
+    position: fixed;
+    bottom: 0;
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    width: 100%;
+    padding: 10px 20px;
+    text-align: center;
+    z-index: 9999;
+    font-size: 14px;
+  }
+  #cookieConsent button {
+    background: #fff;
+    color: #111;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .services {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  nav {
+    right: 0;
+    width: 100%;
+    top: 60px;
+    padding: 1rem 2rem;
+  }
+  nav a {
+    margin: 1rem 0;
+  }
+  .popup form {
+    width: 90%;
+    max-width: 400px;
+  }
+  section {
+    padding: 3rem 1rem;
+  }
+}
+</style>
+
+
+<style>
+/* Modern futuristic white text */
+body {
+  font-family: 'Orbitron', sans-serif !important;
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+
+/* Header */
+header {
+  padding: 0.5rem 0.8rem;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.hamburger {
+  margin-left: -80px; /* extreme left */
+  position: relative;
+  z-index: 200;
+}
+.hamburger span {
+  height: 3px;
+  width: 30px;
+  background: #ffffff;
+  border-radius: 3px;
+}
+
+/* Tagline */
+header .tagline {
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+}
+
+/* Hero */
+.hero {
+  background: url('home-bg.png') center/cover no-repeat;
+  background-size: 120%;
+  border-bottom: 2px solid #ffffff;
+}
+.hero h1 {
+  font-size: 3.5rem;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+.hero p {
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+/* Buttons */
+button {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+button:hover {
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+/* Cards */
+.service-card {
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(20,20,20,0.8);
+  box-shadow: 0 0 15px rgba(255,255,255,0.1);
+}
+
+/* Gallery images optimized for desktop & mobile */
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.gallery-grid img[loading] {
+  loading: lazy;
+}
+
+/* Mobile optimization */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+  }
+  .hamburger {
+    order: -1;
+    margin-left: -90px;
+  }
+  .hero {
+    background-size: 135%;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  nav {
+    width: 100%;
+    padding: 1rem;
+    right: 0;
+  }
+  nav a {
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+}
+</style>
+
+
+<style>
+body {
+  font-family: 'Orbitron', sans-serif !important;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Headings more futuristic */
+h1, h2, h3 {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* About Us paragraph sleeker */
+#about p {
+  font-size: 1.05rem;
+  color: #cccccc;
+}
+
+/* Hamburger placement */
+.hamburger {
+  margin-left: -80px;
+}
+.hamburger span {
+  background: #ffffff;
+}
+
+/* Hero style */
+.hero h1 {
+  font-size: 3.5rem;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.8);
+}
+</style>
+
+</head>
+<body>
+
+<div id="loader"><img loading="lazy" src="logo.png" alt="Loading Logo"></div>
+
+<header>
+  <div class="logo" onclick="location.href='#home'">
+    <img loading="lazy" src="logo.png" alt="Logo">
+  </div>
+  <div class="tagline">Wear your story or mark your journey</div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+  <nav id="nav">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#gallery">Our Creations</a>
+    <a href="#services">Services</a>
+    <a href="#" onclick="showPopup()">Book Now</a>
+    <a href="#contact">Contact Us</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-overlay">
+    <h1>BStarBlossom Ink</h1>
+    <p>Precision Piercings · Custom Tattoos · Laser Tattoo Removal</p>
+    <div class="cta-buttons">
+      <button onclick="showPopup()">Book Your Session</button>
+      <button onclick="document.querySelector('#gallery').scrollIntoView({ behavior: 'smooth' });">View Our Work</button>
+    </div>
+  </div>
+</section>
+
+
+<section id="about">
+<h2>About Us</h2>
+<p style="text-align:justify;line-height:1.7;">
+Welcome to <strong>BStarBlossom Ink</strong> — Polokwane’s hub for bold tattoos, precision piercings, and expert laser removals.
+We turn your story into art with precision, creativity, and edge. Whether it’s your first tattoo, a new piercing, or a fresh start, our skilled artists deliver work you’ll wear with pride.
+</p>
+</section>
+
+
+<section id="services">
+  <h2>Our Services</h2>
+  <div class="services">
+    <div class="service-card"> <h3>Custom Tattoos</h3> <p>Your story in ink. Bold & unique designs.</p> </div>
+    <div class="service-card"> <h3>Precision Piercings</h3> <p>Professional, creative & safe piercings.</p> </div>
+    <div class="service-card"> <h3>Laser Tattoo Removal</h3> <p>Erase your past with modern laser tech.</p> </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2>Our Creations</h2>
+  <div class="service-buttons">
+    <button onclick="showGallery('tattoo')">Tattoos</button>
+    <button onclick="showGallery('piercing')">Piercings</button>
+  </div>
+  <div class="gallery-grid">
+    <!-- 10 tattoo images -->
+    <img loading="lazy" src="tattoo1.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo2.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo3.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo4.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo5.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo6.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo7.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo8.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo9.jpg" class="gallery-item tattoo">
+    <img loading="lazy" src="tattoo10.jpg" class="gallery-item tattoo">
+    <!-- 10 piercing images -->
+    <img loading="lazy" src="piercing1.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing2.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing3.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing4.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing5.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing6.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing7.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing8.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing9.jpg" class="gallery-item piercing">
+    <img loading="lazy" src="piercing10.jpg" class="gallery-item piercing">
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p style="text-align:center;">📧 <a href="mailto:Clementmalesela9@gmail.com" style="color:white;">Clementmalesela9@gmail.com</a></p>
+  <iframe src="https://maps.google.com/maps?q=78%20Schoeman%20St,%20Polokwane&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+</section>
+
+
+<section id="reviews"><div id="google-reviews-widget"><!-- Paste your Google Reviews widget here --></div>
+<h2>What Our Clients Say</h2>
+<div style="text-align:center;">
+<!-- Paste your Google Reviews widget here -->
+<p>⭐️⭐️⭐️⭐️⭐️ “Outstanding craftsmanship and super friendly artists.” — Thabo M.</p>
+<p>⭐️⭐️⭐️⭐️⭐️ “Professional, welcoming, and incredible detail.” — Lerato K.</p>
+</div></section>
+
+
+<div id="whatsapp">
+  <a href="https://wa.me/27715705843" target="_blank"><img loading="lazy" src="whatsapp-icon.png" alt="WhatsApp"></a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const loader = document.getElementById("loader");
+  setTimeout(() => {
+    loader.style.opacity = 0;
+    setTimeout(() => loader.style.display = "none", 1000);
+  }, 2000);
+
+  showGallery('tattoo');
+  document.querySelectorAll("section").forEach(sec => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.2 });
+    observer.observe(sec);
+  });
+});
+
+function toggleMenu() {
+  document.getElementById('nav').classList.toggle('active');
+}
+function showGallery(category) {
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.classList.remove('show');
+    if (item.classList.contains(category)) item.classList.add('show');
+  });
+}
+</script>
+
+
+<div class="popup" id="popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:200;">
+  <form action="https://formspree.io/f/myzpnynp" method="POST" style="background:#222;padding:2rem;border-radius:8px;text-align:center;animation:fadeIn 0.5s;">
+    <h3>Book Your Session</h3>
+    <input type="text" name="name" placeholder="Name" required><br><br>
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="number" name="age" placeholder="Age" required><br><br>
+    <select name="service" required>
+      <option value="">What would you like to book?</option>
+      <option>Tattoo</option>
+      <option>Piercing</option>
+      <option>Laser Removal</option>
+    </select><br><br>
+    <input type="datetime-local" name="datetime" required><br><br>
+    <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div><br><button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+function showPopup() {
+  document.getElementById('popup').style.display = 'flex';
+}
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("loaded");
+});
+</script>
+
+
+<div id="cookieConsent">
+  This website uses cookies to ensure you get the best experience. 
+  <button onclick="acceptCookies()">Got it!</button>
+</div>
+<script>
+  function acceptCookies() {
+    document.getElementById("cookieConsent").style.display = "none";
+    localStorage.setItem("cookieAccepted", "true");
+  }
+  if(localStorage.getItem("cookieAccepted")) {
+    document.getElementById("cookieConsent").style.display = "none";
+  }
+</script>
+
+</body>
+
+</html>
